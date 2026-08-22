@@ -1,25 +1,27 @@
 # Weapons Detection System
 
-A real-time security system that watches a live camera for weapons, then records the event and notifies people who need to know.
+An industrial live-video security platform that detects weapons in real time, records each incident, and notifies the people responsible for response.
 
 ## Short description
 
-Webcam weapon detection with a desktop monitor and a web dashboard for alerts, login, and notification history.
+Enterprise live weapon detection for industrial sites, with on-site monitoring stations and a central operations dashboard for alerts and incident history.
 
 ## About the project
 
-This project has two parts that work together.
+The system is built for industrial and enterprise security operations: factories, warehouses, campuses, transport hubs, and other facilities that already run live surveillance. It watches live video, classifies weapons as they appear, and turns each event into a traceable alert for a control room or duty officer.
 
-The **desktop client** is a Windows app for an operator at a camera. After signing in, they set a location and who should be notified. The app opens the webcam, runs a YOLOv7 model on each frame, and draws boxes on anything it classifies as a weapon. When a weapon is found, it saves that frame and sends it to the server. Alerts are rate-limited so the same event is not posted every frame.
+It has two connected layers.
 
-The **web server** is a Django site for reviewing what the cameras found. Users can register, log in, reset a password, and open a dashboard of detections. Each alert shows the captured image, location, who was notified, and the time. Staff can manage accounts in Django Admin.
+The **monitoring station** runs at the site. An authorized operator signs in, assigns a location, and names who should be notified. The station processes the live video stream with a YOLOv7 detection model, marks weapons on screen, and forwards a still of the event to the central server. Repeat alerts from the same incident are limited so operations are not flooded.
 
-When a detection is uploaded, the server can also send an **email** or an **SMS** (Pakistan `+92` numbers) with a link back to that alert.
+The **operations platform** is a Django web service for supervisors and security staff. Users register and sign in, recover access if needed, and work from a dashboard of detections. Each alert stores the captured frame, site location, notification target, and timestamp. Administrators manage accounts from the staff console.
 
-Typical flow:
+When a weapon is confirmed, the platform can send an **email** or **SMS** with a direct link to that incident so the on-call team can act without waiting for a manual report.
 
-1. An operator logs in on the desktop app and starts monitoring a camera.
-2. The model flags a weapon and uploads the frame.
-3. The dashboard lists the new alert, and the chosen contact gets a message.
+Typical operations flow:
 
-The system is meant for local security posts, campuses, or similar sites where a person watches a camera and a supervisor needs a record of incidents.
+1. A station operator starts live monitoring at an assigned site.
+2. The model flags a weapon and uploads the incident frame.
+3. The operations dashboard records the alert, and the designated contact is notified.
+
+The product is designed to sit beside existing live surveillance, scale across multiple locations, and give industrial security teams a single place to see, verify, and escalate weapon events.
