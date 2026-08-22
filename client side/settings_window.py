@@ -6,10 +6,9 @@ class SettingsWindow(QMainWindow):
     def __init__(self, token):
         super(SettingsWindow, self).__init__()
         loadUi('UI/settings_window.ui', self)
-        
-        self.token = token
 
-        self.detection_window =  DetectionWindow(self.token)
+        self.token = token
+        self.detection_window = DetectionWindow(self.token)
         self.pushButton.clicked.connect(self.go_to_detection)
 
         self.popup = QMessageBox()
@@ -17,29 +16,28 @@ class SettingsWindow(QMainWindow):
         self.popup.setText("Fields must not be empty.")
 
     def displayInfo(self):
-            self.show()
+        self.show()
 
-     
     def go_to_detection(self):
         if self.location_input.text() == '' or self.sendTo_input.text() == '':
-             self.popup.exec_() 
-        else:      
-            if self.detection_window.isVisible():
-                print("Detection Window is already Open!")
-            else:
-             self.detection_window.create_detection_instance(self.token, self.location_input.text(), self.sendTo_input.text())
-             self.detection_window.start_detection()
+            self.popup.exec_()
+            return
+
+        if self.detection_window.isVisible():
+            print("Detection Window is already Open!")
+            return
+
+        self.detection_window.create_detection_instance(
+            self.token,
+            self.location_input.text(),
+            self.sendTo_input.text(),
+        )
+        self.detection_window.start_detection()
 
     def closeEvent(self, event):
-         if hasattr(self, 'detection_window') and self.detection_window.isVisible():
-              if hasattr(self.detection_window, 'detection'):
-                   self.detection_window.detection.running = False
-                   self.detection_window.detection.wait(5000)
-              self.detection_window.close()
-         event.accept()         
-    
-    '''def open_detection_window(self):
-        self.detectionWindow = DetectionWindow(self.token)
-        self.detectionWindow.show()
-        self.close()'''
-            
+        if hasattr(self, 'detection_window') and self.detection_window.isVisible():
+            if hasattr(self.detection_window, 'detection'):
+                self.detection_window.detection.running = False
+                self.detection_window.detection.wait(5000)
+            self.detection_window.close()
+        event.accept()

@@ -2,6 +2,10 @@
 
 A live weapon detection platform for industrial sites, campuses, transport hubs, and other public places that need continuous visual monitoring.
 
+## Short description
+
+Live weapon detection for industry and public spaces, with on-site monitoring, a central alert dashboard, and instant notifications.
+
 ## About the project
 
 This is a full security system, not a single-camera demo. It is built to sit on live video from existing cameras and to support deployment across factories, warehouses, offices, schools, stations, and similar sites.

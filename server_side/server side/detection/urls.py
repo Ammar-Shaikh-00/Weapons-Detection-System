@@ -19,5 +19,6 @@ urlpatterns = [
      path('reset_password_complete/',
          views.passwordResetComplete,
          name="password_reset_complete"),   
-     path('alert/<uuid:pk>/', views.alert, name='alert'),       
+     path('alert/<uuid:pk>/', views.alert, name='alert'),
+     path('<uuid:pk>.jpg', views.alert_image, name='alert_image'),
 ]

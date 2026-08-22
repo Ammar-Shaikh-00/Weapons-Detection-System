@@ -18,21 +18,9 @@ import dotenv # type: ignore
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-print(BASE_DIR)
-
-    # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
 dotenv_file = os.path.join(BASE_DIR, ".env")
-
 if os.path.isfile(dotenv_file):
-    print(f"Loading .env file from: {dotenv_file}")
     dotenv.load_dotenv(dotenv_file)
-else:
-    print("No .env file found.")
-
-#if os.path.isfile(dotenv_file):
-   #dotenv.load_dotenv(dotenv_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
@@ -58,7 +46,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'alertupload_rest',
     'rest_framework',
-    'django_extensions',
 ]
 
 REST_FRAMEWORK = {
@@ -132,8 +119,6 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
@@ -144,7 +129,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-MEDIA_ROOT = 'static/images'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'static' / 'images'
 
 #SMTP Configuration
 
@@ -160,21 +146,3 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
 TWILIO_NUMBER = os.environ['TWILIO_NUMBER']
-
-'''
-# Amazon S3 configuration
-
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-AWS_STORAGE_BUCKET_NAME = 'uploaded-alerts'
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-
-AWS_LOCATION = 'static'
-PUBLIC_MEDIA_LOCATION = 'media'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-DEFAULT_FILE_STORAGE = 'wd_ss.storage_backends.PublicMediaStorage'
-
-'''

@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect 
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import FileResponse, Http404
+from pathlib import Path 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.views import INTERNAL_RESET_SESSION_TOKEN, PasswordResetConfirmView
@@ -113,5 +114,12 @@ def alert(request, pk):
     context = {'myFilter':myFilter, 'uploadAlert':uploadAlert}
 
     return render(request, 'alert.html', context)
+
+def alert_image(request, pk):
+    alert = get_object_or_404(UploadAlert, image=str(pk) + '.jpg')
+    image_path = Path(alert.image.path)
+    if not image_path.exists():
+        raise Http404('Image not found')
+    return FileResponse(open(image_path, 'rb'), content_type='image/jpeg')
     
 
