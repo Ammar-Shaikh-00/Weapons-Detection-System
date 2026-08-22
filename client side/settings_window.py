@@ -31,10 +31,12 @@ class SettingsWindow(QMainWindow):
              self.detection_window.start_detection()
 
     def closeEvent(self, event):
-         if self.detection_window.isVisible():
-              self.detection_window.detection.running = False
+         if hasattr(self, 'detection_window') and self.detection_window.isVisible():
+              if hasattr(self.detection_window, 'detection'):
+                   self.detection_window.detection.running = False
+                   self.detection_window.detection.wait(5000)
               self.detection_window.close()
-              event.accept()         
+         event.accept()         
     
     '''def open_detection_window(self):
         self.detectionWindow = DetectionWindow(self.token)

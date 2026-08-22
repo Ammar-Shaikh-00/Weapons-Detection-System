@@ -24,26 +24,20 @@ class DetectionWindow(QMainWindow):
 
     @pyqtSlot(QImage)
     def setImage(self, image):
-        # Slot to update the QLabel with the new image
-        self.label_detection.setPixmap(QPixmap.fromImage(image))
+        self.label_detection.setPixmap(QPixmap.fromImage(image.copy()))
 
     def start_detection(self):
-        # Ensure that detection instance is created
         if not hasattr(self, 'detection'):
-            self.create_detection_instance()
-        
-        # Connect the detection signal to update the image
-        self.detection.changePixmap.connect(self.setImage)
-        
-        # Start the detection process
-        self.detection.start()
+            self.create_detection_instance(self.token, '', '')
 
-        # Show the detection window
+        self.detection.changePixmap.connect(self.setImage)
+        self.detection.start()
         self.show()
 
     def closeEvent(self, event):
-        # Stop the detection when closing the window
-        self.detection.running = False
+        if hasattr(self, 'detection'):
+            self.detection.running = False
+            self.detection.wait(5000)
         event.accept()
 
 
